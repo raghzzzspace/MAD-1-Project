@@ -21,8 +21,8 @@
                         <td>{{ service.service_name }}</td>
                         <td>${{ service.base_price }}</td>
                         <td>
-                            <a href="{{ url_for('edit_service', service_id=service.id) }}" class="btn btn-outline-primary btn-sm">Edit</a>
-                            <form method="POST" action="{{ url_for('delete_service', service_id=service.id) }}" style="display:inline;">
+                            <a href="{{ url_for('admin_editservice', service_id=service.id) }}" class="btn btn-outline-primary btn-sm">Edit</a>
+                            <form method="POST" action="{{ url_for('admin_deleteservice', service_id=service.id) }}" style="display:inline;">
                                 <button type="submit" class="btn btn-outline-danger btn-sm">Delete</button>
                             </form>
                         </td>
@@ -33,7 +33,7 @@
 
         <!-- Add New Service Button (Aligned to the right) -->
         <div class="text-end mb-5">
-            <a href="/user/admin_add_service" class="btn btn-primary btn-lg" style="width: 200px; background-color: #0066cc; border-color: #005bb5;">+ New Service</a>
+            <a href="/user/admin_addservice" class="btn btn-primary btn-lg" style="width: 200px; background-color: #0066cc; border-color: #005bb5;">+ New Service</a>
         </div>
 
         <!-- Professionals Section -->

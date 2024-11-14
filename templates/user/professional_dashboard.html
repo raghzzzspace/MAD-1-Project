@@ -10,10 +10,10 @@
                         <h5 class="card-title" style="color: #004aad;">Profile</h5>
                         <p class="card-text">View or edit your professional details below:</p>
                         <div class="d-flex justify-content-between">
-                            <form action="/user/professional_view_profile/{{ professional.professional_id }}" method="GET">
+                            <form action="/user/professional_viewprofile/{{ professional.professional_id }}" method="GET">
                                 <button type="submit" class="btn btn-primary">View Profile</button>
                             </form>  
-                            <form action="/user/professional_edit_profile/{{ professional.professional_id }}" method="POST">
+                            <form action="/user/professional_editprofile/{{ professional.professional_id }}" method="POST">
                                 <button class="btn btn-outline-primary">Edit Profile</button>
                             </form>                                             
                         </div>  

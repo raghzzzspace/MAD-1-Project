@@ -21,7 +21,7 @@
                 {% endwith %}
 
                 <!-- Edit Profile Form -->
-                <form method="POST" action="{{ url_for('professional_edit_profile', professional_id=professional.professional_id) }}" enctype="multipart/form-data">
+                <form method="POST" action="{{ url_for('professional_editprofile', professional_id=professional.professional_id) }}" enctype="multipart/form-data">
                     <!-- Email (readonly) -->
                     <div class="mb-3">
                         <label for="email" class="form-label">Email</label>

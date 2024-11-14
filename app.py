@@ -17,6 +17,7 @@ app.secret_key = secrets.token_hex(16)
 # Configuration for the database
 app.config['SQLALCHEMY_DATABASE_URI'] = r"sqlite:///C:\Users\hp\Desktop\household_services_database.db"  # Absolute path for SQLite
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
 # Initialize the database
 db.init_app(app)
 migrate = Migrate(app, db)
@@ -31,8 +32,8 @@ def index():
     return render_template("index.html")
 
 # customer registration
-@app.route('/user/register', methods=['GET', 'POST'])
-def user_register():
+@app.route('/user/customer_register', methods=['GET', 'POST'])
+def customer_register():
     if request.method == 'POST':
         email = request.form['email']
         password = request.form['password']
@@ -43,13 +44,13 @@ def user_register():
         existing_customer = Customer.query.filter_by(email=email).first()
         if existing_customer:
             flash('Already Registered with this email. Please login.', 'danger')
-            return render_template('user/register.html')
+            return render_template('user/customer_register.html')
 
 
         existing_professional = Professional.query.filter_by(email=email).first()
         if existing_professional:
             flash('Already Registered with this email. Please login.', 'danger')
-            return render_template('user/register.html')
+            return render_template('user/customer_register.html')
 
         new_customer = Customer(
             email=email,
@@ -64,13 +65,13 @@ def user_register():
         db.session.commit()
 
         flash('Registered Successfully! Please login to continue.', 'success')
-        return render_template('user/register.html')
+        return render_template('user/customer_register.html')
 
-    return render_template('user/register.html')
+    return render_template('user/customer_register.html')
 
 # professional registration
-@app.route('/user/service_prof_signup', methods=['GET','POST'])
-def service_prof_signup():
+@app.route('/user/professional_signup', methods=['GET','POST'])
+def professional_signup():
     if request.method == 'POST':
         email = request.form['email']
         password = request.form['password']
@@ -84,13 +85,13 @@ def service_prof_signup():
         existing_customer = Customer.query.filter_by(email=email).first()
         if existing_customer:
             flash('Already Registered with this email. Please login.', 'danger')
-            return render_template('user/service_prof_signup.html')
+            return render_template('user/professional_signup.html')
 
-        # Check if the email exists in the Professional table
+        
         existing_professional = Professional.query.filter_by(email=email).first()
         if existing_professional:
             flash('Already Registered with this email. Please login.', 'danger')
-            return render_template('user/service_prof_signup.html')
+            return render_template('user/professional_signup.html')
 
         document_data = document.read() if document else None
 
@@ -110,9 +111,9 @@ def service_prof_signup():
         db.session.commit()
 
         flash('Registered Successfully! Please login to continue.', 'success')
-        return render_template('user/service_prof_signup.html')
+        return render_template('user/professional_signup.html')
 
-    return render_template('user/service_prof_signup.html')
+    return render_template('user/professional_signup.html')
 
 
 
@@ -130,29 +131,25 @@ def user_login():
         email = request.form['email']
         password = request.form['password']
 
-        # Check if the user is a Customer
         customer =  Customer.query.filter_by(email=email, password=password).first()
         if customer:
             session['customer_id'] = customer.customer_id
             flash(f'Welcome back, {customer.full_name}!', 'success')
-            return redirect(url_for('customer_dashboard'))  # Redirect to Customer Dashboard
+            return redirect(url_for('customer_dashboard'))
 
-        # Check if the user is a Professional
         professional = Professional.query.filter_by(email=email, password=password).first()
         if professional:
             session['professional_id'] = professional.professional_id
             flash(f'Welcome back, {professional.full_name}!', 'success')
-            return redirect(url_for('professional_dashboard'))  # Redirect to Professional Dashboard
+            return redirect(url_for('professional_dashboard')) 
 
-        # Check if the user is an Admin
         admin = Admin.query.filter_by(email=email, password=password).first()
         if admin:
             flash(f'Welcome back, {admin.email}!', 'success')
-            return redirect(url_for('admin_dashboard'))  # Redirect to Admin Dashboard
+            return redirect(url_for('admin_dashboard'))  
 
-        # If no match is found, flash an error message
         flash('Invalid credentials. Please try again.', 'danger')
-        return redirect(url_for('user_login'))  # Redirect back to login page
+        return redirect(url_for('user_login'))  
 
     return render_template('user/login.html')
 
@@ -291,15 +288,15 @@ def customer_summary():
 
 
 #PROFESSIONAL SIDE
-@app.route('/user/professional_view_profile/<int:professional_id>', methods=['GET'])
-def professional_view_profile(professional_id):
+@app.route('/user/professional_viewprofile/<int:professional_id>', methods=['GET'])
+def professional_viewprofile(professional_id):
     professional = Professional.query.get_or_404(professional_id)
 
-    return render_template('user/professional_view_profile.html', professional=professional)
+    return render_template('user/professional_viewprofile.html', professional=professional)
 
 
-@app.route('/user/professional_edit_profile/<int:professional_id>', methods=['GET', 'POST'])
-def professional_edit_profile(professional_id):
+@app.route('/user/professional_editprofile/<int:professional_id>', methods=['GET', 'POST'])
+def professional_editprofile(professional_id):
     professional = Professional.query.get_or_404(professional_id)
 
     if request.method == 'POST':
@@ -315,7 +312,7 @@ def professional_edit_profile(professional_id):
 
         if not fullname or not service_name or not experience or not address or not pincode:
             flash('Please fill in all required fields.', 'danger')
-            return render_template('user/professional_edit_profile.html', professional=professional)
+            return render_template('user/professional_editprofile.html', professional=professional)
 
         if password:
             professional.password = password
@@ -333,13 +330,13 @@ def professional_edit_profile(professional_id):
         try:
             db.session.commit()
             flash('Your profile has been updated successfully!', 'success')
-            return redirect(url_for('professional_view_profile', professional_id=professional.professional_id))
+            return redirect(url_for('professional_viewprofile', professional_id=professional.professional_id))
         except Exception as e:
             db.session.rollback()
             flash(f"Error: {e}", 'danger')
-            return render_template('user/professional_edit_profile.html', professional=professional)
+            return render_template('user/professional_editprofile.html', professional=professional)
 
-    return render_template('user/professional_edit_profile.html', professional=professional)
+    return render_template('user/professional_editprofile.html', professional=professional)
 
 
 
@@ -539,8 +536,8 @@ def admin_dashboard():
     )
 
 
-@app.route('/user/edit_service/<int:service_id>', methods=['GET', 'POST'])
-def edit_service(service_id):
+@app.route('/user/admin_editservice/<int:service_id>', methods=['GET', 'POST'])
+def admin_editservice(service_id):
     service = Services.query.get_or_404(service_id)
     
     if request.method == 'POST':
@@ -549,11 +546,11 @@ def edit_service(service_id):
         db.session.commit()
         return redirect(url_for('admin_dashboard'))
     
-    return render_template('user/edit_service.html', service=service)
+    return render_template('user/admin_editservice.html', service=service)
 
 
-@app.route('/user/delete_service/<int:service_id>', methods=['POST'])
-def delete_service(service_id):
+@app.route('/user/admin_deleteservice/<int:service_id>', methods=['POST'])
+def admin_deleteservice(service_id):
     service = Services.query.get_or_404(service_id)
     db.session.delete(service)
     db.session.commit()
@@ -588,8 +585,8 @@ def admin_search():
     return render_template('user/admin_search.html', search_results=search_results, search_by=search_by)
 
 
-@app.route('/user/admin_add_service', methods=['GET', 'POST'])
-def add_service():
+@app.route('/user/admin_addservice', methods=['GET', 'POST'])
+def admin_addservice():
     if request.method == 'POST':
         service_id = request.form['service_id']
         service_name = request.form['service_name']
@@ -602,7 +599,7 @@ def add_service():
         flash('New service added successfully!', 'success')
         return redirect(url_for('admin_dashboard'))
 
-    return render_template('user/admin_add_service.html')
+    return render_template('user/admin_addservice.html')
 
 
 @app.route('/user/admin_summary', methods=['GET'])
@@ -658,4 +655,4 @@ def search_services():
 
 
 if __name__ == "__main__":
-    app.run(debug=True, host='0.0.0.0', port=7000)
+    app.run(debug=True, host='0.0.0.0', port=8000)
