@@ -1,12 +1,13 @@
 
 from flask import Flask, render_template, request, redirect, url_for, flash, session
-from flask_sqlalchemy import SQLAlchemy
 from model import db, Customer, Professional, Admin
 from model import Closed_Services, Services_status,Services,Service_Req, Service_History, Today_Services
 import secrets
 from sqlalchemy.sql import text
 from datetime import datetime
 from sqlalchemy import func
+from flask_sqlalchemy import SQLAlchemy
+from flask_migrate import Migrate
 
 
 
@@ -15,10 +16,10 @@ app.secret_key = secrets.token_hex(16)
 
 # Configuration for the database
 app.config['SQLALCHEMY_DATABASE_URI'] = r"sqlite:///C:\Users\hp\Desktop\household_services_database.db"  # Absolute path for SQLite
-
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 # Initialize the database
-# db.init_app(app)
-# migrate = Migrate(app, db)
+db.init_app(app)
+migrate = Migrate(app, db)
 
 # Create the tables (Only needed on the first run)
 # with app.app_context():
@@ -657,4 +658,4 @@ def search_services():
 
 
 if __name__ == "__main__":
-    app.run(debug=True, host='0.0.0.0', port=8000)
+    app.run(debug=True, host='0.0.0.0', port=7000)
