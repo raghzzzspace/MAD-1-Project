@@ -6,7 +6,6 @@ import secrets
 from sqlalchemy.sql import text
 from datetime import datetime
 from sqlalchemy import func
-from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 
 
@@ -284,6 +283,24 @@ def customer_summary():
     }
 
     return render_template('user/customer_summary.html', service_history_data=service_history_data)
+
+@app.route('/search_services', methods=['POST'])
+def search_services():
+    
+    
+    search_results = []
+    search_by = None  
+
+    if request.method == 'POST':  
+        search_by = request.form.get('service_type')
+        search_results = Professional.query.filter(Professional.service_name.ilike(f"%{search_by}%"),Professional.status == "Approved").all()
+
+    customer_id = session['customer_id']
+    service_history = Service_History.query.filter_by(id=customer_id).all()
+    services = Services.query.all()
+
+    return render_template('user/customer_dashboard.html', services=services,service_history=service_history,search_results=search_results, search_by=search_by)
+    
     
 
 
@@ -629,24 +646,7 @@ def admin_summary():
 def admin_profile():
     return render_template('/user/admin_profile.html')
 
-@app.route('/search_services', methods=['POST'])
-def search_services():
-    
-    
-    search_results = []
-    search_by = None  
 
-    if request.method == 'POST':  
-        search_by = request.form.get('service_type')
-        search_results = Professional.query.filter(Professional.service_name.ilike(f"%{search_by}%"),Professional.status == "Approved").all()
-
-    customer_id = session['customer_id']
-    service_history = Service_History.query.filter_by(id=customer_id).all()
-    services = Services.query.all()
-
-    return render_template('user/customer_dashboard.html', services=services,service_history=service_history,search_results=search_results, search_by=search_by)
-    
-    
 
 
 
