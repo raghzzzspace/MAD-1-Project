@@ -1,0 +1,43 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+<div class="container my-4">
+    <h1 class="text-center text-primary">Welcome to Household Services</h1>
+    <p class="text-center text-muted">Connecting you with trusted professionals for comprehensive home services</p>
+
+    <div class="row text-center mt-5">
+        <div class="col-md-4">
+            <img src="{{ url_for('static', filename='customer.jpeg') }}" alt="Customer" class="img-fluid mb-3 uniform-image">
+            <a href="{{ url_for('user_login') }}" class="btn btn-primary btn-lg">
+                <i class="fas fa-user"></i> Customer Login
+            </a>            
+            <p class="text-secondary">Book services and manage requests</p>
+        </div>
+        <div class="col-md-4">
+            <img src="{{ url_for('static', filename='service_prof.png') }}" alt="Service Professional" class="img-fluid mb-3 uniform-image">
+            <a href="{{ url_for('service_professional_login') }}" class="btn btn-primary btn-lg">  <!-- Ensure this route is defined -->
+                <i class="fas fa-briefcase"></i> Service Professional Login
+            </a>
+            <p class="text-secondary">View and accept service requests</p>
+        </div>
+        <div class="col-md-4">
+            <img src="{{ url_for('static', filename='admin.png') }}" alt="Admin" class="img-fluid mb-3 uniform-image">
+            <a href="{{ url_for('admin_login') }}" class="btn btn-primary btn-lg">  <!-- Ensure this route is defined -->
+                <i class="fas fa-cog"></i> Admin Login
+            </a>
+            <p class="text-secondary">Monitor and manage the platform</p>
+        </div>
+    </div>
+</div>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+<style>
+    .uniform-image {
+        height: 200px;
+        object-fit: cover;
+        width: 100%;
+        border-radius: 8px;
+    }
+</style>
+{% endblock %}

@@ -1,0 +1,103 @@
+{% extends "user/admin_layout.html" %}
+
+{% block content %}
+    <div class="container-fluid mb-5">
+
+        <!-- Services Section -->
+        <h3 class="text-center mb-4" style="color: #004aad;">Services</h3>
+        <table class="table table-striped table-hover shadow rounded">
+            <thead style="background-color: #cfe2ff; color: #084298;">
+                <tr>
+                    <th>ID</th>
+                    <th>Service Name</th>
+                    <th>Base Price</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for service in services %}
+                    <tr>
+                        <td><a href="#" style="color: #004aad;">{{ service.id }}</a></td>
+                        <td>{{ service.service_name }}</td>
+                        <td>${{ service.base_price }}</td>
+                        <td>
+                            <a href="{{ url_for('edit_service', service_id=service.id) }}" class="btn btn-outline-warning btn-sm">Edit</a>
+                            <form method="POST" action="{{ url_for('delete_service', service_id=service.id) }}" style="display:inline;">
+                                <button type="submit" class="btn btn-outline-danger btn-sm">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <!-- Add New Service Button (Aligned to the right) -->
+        <div class="text-end mb-5">
+            <a href="/user/admin_add_service" class="btn btn-primary btn-lg" style="width: 200px;">+ New Service</a>
+        </div>
+
+        <!-- Professionals Section -->
+        <h3 class="text-center mb-4" style="color: #004aad;">Professionals</h3>
+        <table class="table table-striped table-hover shadow rounded">
+            <thead style="background-color: #b6d4fe; color: #084298;">
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Experience (Yrs)</th>
+                    <th>Service Name</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for professional in professionals %}
+                    <tr>
+                        <td><a href="#" style="color: #004aad;">{{ professional.professional_id }}</a></td>
+                        <td>{{ professional.full_name }}</td>
+                        <td>{{ professional.experience }}</td>
+                        <td>{{ professional.service_name }}</td>
+                        <td>
+                            {% if professional.status %}
+                                <!-- Display status if available -->
+                                <span class="badge bg-secondary">{{ professional.status }}</span>
+                            {% else %}
+                                <!-- Show action buttons if no status -->
+                                <form method="POST" action="{{ url_for('approve_professional', professional_id=professional.professional_id) }}" style="display:inline;">
+                                    <button type="submit" class="btn btn-outline-success btn-sm">Approve</button>
+                                </form>
+                                <form method="POST" action="{{ url_for('reject_professional', professional_id=professional.professional_id) }}" style="display:inline;">
+                                    <button type="submit" class="btn btn-outline-danger btn-sm">Reject</button>
+                                </form>
+                                <form method="POST" action="{{ url_for('delete_professional', professional_id=professional.professional_id) }}" style="display:inline;">
+                                    <button type="submit" class="btn btn-outline-warning btn-sm">Delete</button>
+                                </form>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <!-- Service Requests Section -->
+        <h3 class="text-center mb-4" style="color: #004aad;">Service Requests</h3>
+        <table class="table table-striped table-hover shadow rounded">
+            <thead style="background-color: #d9eaf7; color: #084298;">
+                <tr>
+                    <th>Service ID</th>
+                    <th>Assigned Professional (if any)</th>
+                    <th>Service Name</th>
+                    <th>Status (R/C)</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for service_request in service_requests %}
+                    <tr>
+                        <td><a href="#" style="color: #004aad;">{{ service_request.id }}</a></td>
+                        <td>{{ service_request.professional or 'N/A' }}</td>
+                        <td>{{ service_request.service_name }}</td>
+                        <td>{{ service_request.status or 'N/A' }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>            
+        </table>
+    </div>
+{% endblock %}

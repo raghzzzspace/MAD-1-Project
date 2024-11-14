@@ -1,0 +1,30 @@
+{% extends "user/admin_layout.html" %}
+
+{% block content %}
+    <div class="container-fluid mb-5">
+
+        <!-- Edit Service Section -->
+        <h3 class="text-center mb-4" style="color: #004aad;">Edit Service</h3>
+
+        <!-- Edit Service Form -->
+        <form method="POST" action="{{ url_for('edit_service', service_id=service.id) }}">
+            
+            <div class="mb-3">
+                <label for="service_name" class="form-label">Service Name</label>
+                <input type="text" class="form-control" id="service_name" name="service_name" value="{{ service.service_name }}" required placeholder="Enter service name">
+            </div>
+
+            <div class="mb-3">
+                <label for="base_price" class="form-label">Base Price</label>
+                <input type="number" class="form-control" id="base_price" name="base_price" value="{{ service.base_price }}" required placeholder="Enter base price" min="0" step="0.01">
+            </div>
+
+            <!-- Submit Button -->
+            <div class="text-end">
+                <button type="submit" class="btn btn-primary btn-lg" style="width: 200px;">Save Changes</button>
+            </div>
+
+        </form>
+
+    </div>
+{% endblock %}

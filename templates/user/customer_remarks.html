@@ -1,0 +1,73 @@
+{% extends "user/customer_layout.html" %}
+
+{% block content %}
+<div class="container-fluid mb-5" style="max-width: 600px; margin-top: 30px;">
+    <form action="{{ url_for('submit_service_remarks') }}" method="POST" class="shadow p-4 rounded"
+        style="border: 2px solid #ccc; background-color: #f9f9f9;">
+        <h4 class="text-center text-primary mb-3">Service Remarks</h4>
+        <p class="text-center text-primary">Service ID: {{ service.service_id }}</p>
+
+        <!-- Service Details -->
+        <div class="row mb-3">
+            <input type="text" class="form-control text-center" placeholder="{{ service.service_name }}" disabled
+                style="background-color: #f8d7da;">
+        </div>
+
+        <div class="row mb-3">
+            <input type="text" class="form-control text-center" placeholder="{{ service.professional_name }}" disabled
+                style="background-color: #f8d7da;">
+        </div>
+
+        <!-- Service Rating -->
+        <div class="mb-3">
+            <label class="form-label">Service rating:</label>
+            <div class="rating">
+                <span class="diamond">&#9670;</span>
+                <span class="diamond">&#9670;</span>
+                <span class="diamond">&#9670;</span>
+                <span class="diamond inactive">&#9670;</span>
+                <span class="diamond inactive">&#9670;</span>
+            </div>
+            <input type="hidden" name="rating" id="rating" value="3"> <!-- Default rating is set to 3 -->
+            <input type="hidden" name="service_id" id="service_id" value="{{ service.service_id }}">
+        </div>
+
+        <!-- Remarks -->
+        <div class="mb-4">
+            <label class="form-label">Remarks (if any):</label>
+            <textarea class="form-control" name="remarks" rows="3" placeholder="Enter your remarks here..."
+                style="resize: none;"></textarea>
+        </div>
+
+        <!-- Buttons -->
+        <div class="d-flex justify-content-between">
+            <button type="submit" class="btn btn-primary btn-sm">Submit</button>
+        </div>
+    </form>
+</div>
+
+<style>
+    .rating .diamond {
+        font-size: 1.5em;
+        color: #ff6666;
+        cursor: pointer;
+    }
+
+    .rating .diamond.inactive {
+        color: #ccc;
+    }
+</style>
+
+<script>
+    // JavaScript to handle rating interaction
+    const ratingInput = document.getElementById('rating');
+    document.querySelectorAll('.diamond').forEach((diamond, index) => {
+        diamond.addEventListener('click', () => {
+            document.querySelectorAll('.diamond').forEach((d, i) => {
+                d.classList.toggle('inactive', i > index);
+            });
+            ratingInput.value = index + 1; // Set rating value based on the selected diamonds
+        });
+    });
+</script>
+{% endblock %}

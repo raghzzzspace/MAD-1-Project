@@ -1,0 +1,64 @@
+{% extends "user/customer_layout.html" %}
+
+{% block content %}
+<div class="container-fluid mb-5">
+    <div class="row">
+        <!-- Right Column: Service History -->
+        <div class="card shadow-sm border-0">
+            <div class="card-body" style="min-height: 250px;"> <!-- Reduced height -->
+                <h5 class="card-title" style="color: #004aad;">Service History</h5>
+                <div class="d-flex justify-content-center">
+                    <canvas id="serviceHistoryChart" width="300" height="300"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Chart.js and Custom Script -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    // Pass dynamic data from the backend using template variables
+    var serviceHistoryData = {{ service_history_data | tojson | safe }};
+
+    // Bar chart for Service History
+    var ctxHistory = document.getElementById('serviceHistoryChart').getContext('2d');
+    var serviceHistoryChart = new Chart(ctxHistory, {
+        type: 'bar',
+        data: {
+            labels: ['Requested', 'Closed', 'Assigned'],
+            datasets: [{
+                label: 'Service History',
+                data: [
+                    serviceHistoryData['Requested'] || 0,
+                    serviceHistoryData['Closed'] || 0,
+                    serviceHistoryData['Assigned'] || 0
+                ],
+                backgroundColor: ['#17a2b8', '#28a745', '#ffc107'],
+                borderColor: '#ffffff',
+                borderWidth: 2
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            },
+            plugins: {
+                legend: {
+                    display: false
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function (tooltipItem) {
+                            return tooltipItem.label + ': ' + tooltipItem.raw;
+                        }
+                    }
+                }
+            }
+        }
+    });
+</script>
+{% endblock %}

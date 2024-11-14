@@ -1,0 +1,108 @@
+{% extends "user/admin_layout.html" %}
+
+{% block content %}
+<div class="container-fluid mb-5">
+    <!-- Search Section -->
+    <h3 class="text-center mb-4" style="color: #004aad;">Search</h3>
+
+    <!-- Search Form -->
+    <form action="#" method="POST">
+        <div class="row justify-content-center">
+            <div class="col-md-4">
+                <div class="mb-3">
+                    <label for="searchBy" class="form-label" style="color: #004aad;">Search By:</label>
+                    <select class="form-select" id="searchBy" name="searchBy" aria-label="Search By">
+                        <option value="services">Services</option>
+                        <option value="service requests">Service Requests</option>
+                        <option value="customers">Customers</option>
+                        <option value="professionals">Professionals</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="mb-3">
+                    <label for="searchText" class="form-label" style="color: #004aad;">Search Text:</label>
+                    <input type="text" class="form-control" id="searchText" name="searchText"
+                        placeholder="Enter search text (e.g., closed)">
+                </div>
+            </div>
+            <div class="col-md-1 d-flex align-items-center">
+                <button type="submit" class="btn"
+                    style="background-color: #004aad; color: white; border: none; height: 40px;margin-top:15px;">Search</button>
+            </div>
+        </div>
+    </form>
+
+    <!-- Search Results Section -->
+    <h3 class="text-center mb-3" style="color: #004aad;">
+        {% if search_by == 'services' %}
+        Services Search Results
+        {% elif search_by == 'service requests' %}
+        Service Requests Search Results
+        {% elif search_by == 'customers' %}
+        Customers Search Results
+        {% elif search_by == 'professionals' %}
+        Professionals Search Results
+        {% else %}
+        Search Results
+        {% endif %}
+    </h3>
+
+    {% if search_results %}
+    <table class="table table-striped table-hover shadow rounded">
+        <thead style="background-color: #d9eaf7; color: #084298;">
+            <tr>
+                <th>ID</th>
+                {% if search_by == 'services' %}
+                <th>Service Name</th>
+                <th>Base Price</th>
+                <th>Status</th>
+                {% elif search_by == 'service requests' %}
+                <th>Assigned Professional</th>
+                <th>Requested Date</th>
+                <th>Status (R/A/C)</th>
+                {% elif search_by == 'customers' %}
+                <th>Customer Name</th>
+                <th>Address</th>
+                <th>Pincode</th>
+                {% elif search_by == 'professionals' %}
+                <th>Professional Name</th>
+                <th>Experience</th>
+                <th>Service Provided</th>
+                {% endif %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for result in search_results %}
+            <tr>
+
+                {% if search_by == 'services' %}
+                <td><a href="#" style="color: #004aad;">{{ result.id }}</a></td>
+                <td>{{ result.service_name }}</td>
+                <td>{{ result.base_price }}</td>
+                <td>{{ result.status or 'N/A' }}</td>
+                {% elif search_by == 'service requests' %}
+                <td><a href="#" style="color: #004aad;">{{ result.id }}</a></td>
+                <td>{{ result.assigned_prof or 'N/A' }}</td>
+                <td>{{ result.req_date }}</td>
+                <td>{{ result.status or 'N/A' }}</td>
+                {% elif search_by == 'customers' %}
+                <td><a href="#" style="color: #004aad;">{{ result.customer_id }}</a></td>
+                <td>{{ result.full_name }}</td>
+                <td>{{ result.address }}</td>
+                <td>{{ result.pincode }}</td>
+                {% elif search_by == 'professionals' %}
+                <td><a href="#" style="color: #004aad;">{{result.professional_id }}</a></td>
+                <td>{{ result.full_name }}</td>
+                <td>{{ result.experience }}</td>
+                <td>{{ result.service_name }}</td>
+                {% endif %}
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p class="text-center">No results found for your search.</p>
+    {% endif %}
+</div>
+{% endblock %}

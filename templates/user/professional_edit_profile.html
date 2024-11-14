@@ -1,0 +1,96 @@
+{% extends "user/professional_layout.html" %}
+
+{% block content %}
+    <div class="container mt-5 d-flex justify-content-center align-items-center" style="min-height: 100vh;">
+        <div class="card shadow-lg rounded" style="background: linear-gradient(135deg, #004aad, #0099ff); width: 100%; max-width: 600px; padding: 20px;">
+            <div class="card-body text-white d-flex flex-column align-items-center">
+                <h4 class="card-title text-center mb-4">Edit Profile</h4>
+
+                <!-- Flash message section -->
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        {% for category, message in messages %}
+                            <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                                {{ message }}
+                                <button type="button" class="close" data-bs-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+
+                <!-- Edit Profile Form -->
+                <form method="POST" action="{{ url_for('professional_edit_profile', professional_id=professional.professional_id) }}" enctype="multipart/form-data">
+                    <!-- Email (readonly) -->
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="email" name="email" value="{{ professional.email }}" readonly>
+                    </div>
+                
+                    <!-- Password -->
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Password</label>
+                        <input type="password" class="form-control" id="password" name="password" placeholder="Leave blank to keep current password">
+                    </div>
+                
+                    <!-- Full Name -->
+                    <div class="mb-3">
+                        <label for="fullname" class="form-label">Full Name</label>
+                        <input type="text" class="form-control" id="fullname" name="fullname" value="{{ professional.full_name }}" required>
+                    </div>
+                
+                    <!-- Service Name -->
+                    <div class="mb-3">
+                        <label for="service_name" class="form-label">Service Name</label>
+                        <input type="text" class="form-control" id="service_name" name="service_name" value="{{ professional.service_name }}" required>
+                    </div>
+                
+                    <!-- Experience -->
+                    <div class="mb-3">
+                        <label for="experience" class="form-label">Experience (years)</label>
+                        <input type="number" class="form-control" id="experience" name="experience" value="{{ professional.experience }}" required>
+                    </div>
+                
+                    <!-- Document -->
+                    <div class="mb-3">
+                        <label for="document" class="form-label">Upload Document</label>
+                        <input type="file" class="form-control" id="document" name="document">
+                    </div>
+                
+                    <!-- Address -->
+                    <div class="mb-3">
+                        <label for="address" class="form-label">Address</label>
+                        <input type="text" class="form-control" id="address" name="address" value="{{ professional.address }}" required>
+                    </div>
+                
+                    <!-- Pincode -->
+                    <div class="mb-3">
+                        <label for="pincode" class="form-label">Pincode</label>
+                        <input type="text" class="form-control" id="pincode" name="pincode" value="{{ professional.pincode }}" required>
+                    </div>
+                
+                    <!-- Role (disabled) -->
+                    <div class="mb-3">
+                        <label for="role" class="form-label">Role</label>
+                        <input type="text" class="form-control" id="role" name="role" value="{{ professional.role }}" readonly disabled>
+                    </div>
+                
+                    <!-- Status (disabled) -->
+                    <div class="mb-3">
+                        <label for="status" class="form-label">Status</label>
+                        <input type="text" class="form-control" id="status" name="status" value="{{ professional.status }}" readonly disabled>
+                    </div>
+                
+                    <!-- Submit Button -->
+                    <button type="submit" class="btn btn-light w-100 mt-4" style="color: #004aad; font-weight: bold;">
+                        Save Changes
+                    </button>
+                </form>
+                
+                
+                
+            </div>
+        </div>
+    </div>
+{% endblock %}

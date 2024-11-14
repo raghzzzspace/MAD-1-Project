@@ -1,0 +1,76 @@
+<!-- professional_search.html -->
+{% extends "user/professional_layout.html" %}
+
+{% block content %}
+    <!-- Search Section -->
+    <div class="container mb-5">
+        <h3 class="text-center mb-3" style="color: #004aad;">Search</h3>
+
+        <!-- Search Form -->
+        <form action="/user/professional_search" method="POST">
+            <div class="row justify-content-center">
+                <div class="col-md-4">
+                    <div class="mb-3">
+                        <label for="searchBy" class="form-label" style="color: #004aad;">Search By:</label>
+                        <select class="form-select" id="searchBy" name="searchBy" aria-label="Search By" style="background-color: #e9f2fb; color: #004aad;">
+                            <option value="date">Date</option>
+                            <option value="location">Location</option>
+                            <option value="pincode">Pincode</option>
+                            <option value="customer">Customer Name</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="mb-3">
+                        <label for="searchText" class="form-label" style="color: #004aad;">Search Text:</label>
+                        <input type="text" class="form-control" id="searchText" name="searchText" placeholder="Enter search text" style="background-color: #e9f2fb; color: #004aad;">
+                    </div>
+                </div>
+                <div class="col-md-1 d-flex align-items-center">
+                    <button type="submit" class="btn" style="background-color: #004aad; color: white; border: none; height: 40px; margin-top: 15px;">Search</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <!-- Search Results Section -->
+    {% if search_results %}
+        <div class="container-fluid">
+            <h3 class="text-center mb-3" style="color: #004aad;">Search Results</h3>
+            <table class="table table-striped table-hover shadow rounded" style="background-color: #f0f8ff;">
+                <thead style="background-color: #cfe2ff; color: #084298;">
+                    <tr>
+                        <th>ID</th>
+                        <th>Customer Name</th>
+                        <th>Email</th>
+                        <th>Location (Pincode)</th>
+                        <th>Date</th>
+                        <th>Rating</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for service in search_results %}
+                        <tr>
+                            <td>{{ service.id }}</td>
+                            <td>{{ service.customer_name }}</td>
+                            <td>{{ service.email }}</td>
+                            <td>{{ service.location }}</td>
+                            <td>{{ service.date }}</td>
+                            <td>
+                                {% if service.rating %}
+                                    {{ '⭐' * service.rating }}
+                                {% else %}
+                                    No rating
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <div class="text-center mt-4">
+            <p style="color: #004aad;">No results found for your search.</p>
+        </div>
+    {% endif %}
+{% endblock %}

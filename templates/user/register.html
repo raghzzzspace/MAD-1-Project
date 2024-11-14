@@ -1,0 +1,56 @@
+{% extends "layout.html" %}
+
+{% block title %}Customer Sign Up{% endblock title %}
+
+{% block body %}
+<div class="d-flex justify-content-center align-items-center" style="min-height: 80vh;">
+    <div class="p-4 shadow-lg rounded" style="max-width: 400px; width: 100%; background: linear-gradient(to bottom, #0066cc, #004aad); color: #ffffff;">
+        <h2 class="text-center mb-4" style="color: #ffffff;">Customer Sign Up</h2>
+
+        <!-- Flash messages section -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                        {{ message }}
+                        <button type="button" class="close" data-bs-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <!-- Form to register a new user -->
+        <form method="POST" action="{{ url_for('user_register') }}">
+            <div class="mb-3">
+                <label for="email" class="form-label">Email ID (Username)</label>
+                <input type="email" class="form-control" id="email" name="email" required style="border: none; background-color: #e0f0ff;">
+            </div>
+            <div class="mb-3">
+                <label for="password" class="form-label">Password</label>
+                <input type="password" class="form-control" id="password" name="password" required style="border: none; background-color: #e0f0ff;">
+            </div>
+            <div class="mb-3">
+                <label for="fullname" class="form-label">Fullname</label>
+                <input type="text" class="form-control" id="fullname" name="fullname" required style="border: none; background-color: #e0f0ff;">
+            </div>
+            <div class="mb-3">
+                <label for="address" class="form-label">Address</label>
+                <input type="text" class="form-control" id="address" name="address" required style="border: none; background-color: #e0f0ff;">
+            </div>
+            <div class="mb-3">
+                <label for="pincode" class="form-label">Pincode</label>
+                <input type="text" class="form-control" id="pincode" name="pincode" required style="border: none; background-color: #e0f0ff;">
+            </div>
+            <button type="submit" class="btn btn-light w-100 mt-4" style="color: #004aad; font-weight: bold;">
+                Register
+            </button>
+        </form>
+
+        <p class="text-center mt-3">
+            <a href="{{ url_for('user_login') }}" class="text-white" style="text-decoration: underline;">Already have an account? Login here</a>
+        </p>
+    </div>
+</div>
+{% endblock body %}

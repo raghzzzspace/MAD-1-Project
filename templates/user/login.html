@@ -1,0 +1,54 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+<div class="container my-5">
+    <h1 class="text-center text-primary mb-4">A to Z Household Services</h1>
+
+    <div class="card p-4 rounded shadow mx-auto"
+        style="max-width: 500px; background: linear-gradient(135deg, #004aad, #0099ff);">
+        <div class="mb-4 text-end">
+            <h2 class="text-white fs-5">
+                <a href="{{ url_for('service_prof_signup') }}" class="text-light">Register as Professional</a>
+            </h2>
+        </div>
+
+        <!-- Flash messages -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        {% for category, message in messages %}
+        <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="close" data-bs-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        {% endfor %}
+        {% endif %}
+        {% endwith %}
+
+        <form action="{{ url_for('user_login') }}" method="POST">
+            <div class="mb-3 row">
+                <label for="email" class="col-md-4 col-form-label text-white">Registered Email ID:</label>
+                <div class="col-md-8">
+                    <input type="email" class="form-control" id="email" name="email" required
+                        placeholder="Enter your email">
+                </div>
+            </div>
+            <div class="mb-3 row">
+                <label for="password" class="col-md-4 col-form-label text-white">Password:</label>
+                <div class="col-md-8">
+                    <input type="password" class="form-control" id="password" name="password" required
+                        placeholder="Enter your password">
+                </div>
+            </div>
+            <button type="submit" class="btn btn-light btn-lg w-100">Login</button>
+        </form>
+        <div class="text-center mt-3">
+            <p class="text-white">Don't have an account? <a href="{{ url_for('user_register') }}"
+                    class="text-light">Create Account</a></p>
+        </div>
+    </div>
+</div>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+{% endblock %}
