@@ -5,25 +5,26 @@
 
     <!-- Search Form Section -->
     <form class="row align-items-center mb-4" action="#" method="POST">
-        <label for="searchBy" class="col-form-label me-2" style="font-weight: bold;">Search by:</label>
+        <label for="searchBy" class="col-form-label me-2" style="font-weight: 600; color: #004aad;">Search by:</label>
         <div class="col-auto">
-            <select id="searchBy" class="form-select" name="searchBy">
+            <select id="searchBy" class="form-select" name="searchBy" style="border-radius: 8px; font-size: 16px; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);">
                 <option value="service_name">Service Name</option>
                 <option value="pin_code">Pin Code</option>
                 <option value="location">Location</option>
             </select>
         </div>
         <div class="col-auto">
-            <input type="text" class="form-control" placeholder="Enter your search" id="searchInput" name="searchInput">
+            <input type="text" class="form-control" placeholder="Enter your search" id="searchInput" name="searchInput" 
+                style="border-radius: 8px; font-size: 16px; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);">
         </div>
         <div class="col-auto">
-            <button type="submit" class="btn btn-primary">Search</button>
+            <button type="submit" class="btn btn-primary" style="border-radius: 8px; padding: 10px 20px; font-weight: 600;">Search</button>
         </div>
     </form>
 
     <!-- Search Results Section -->
     <div class="mb-5">
-        <h3 class="mb-4" style="color: #004aad;">
+        <h3 class="mb-4 text-center" style="color: #004aad; font-weight: 600;">
             {% if search_by == 'service_name' %}
             Service Name Search Results
             {% elif search_by == 'pin_code' %}
@@ -49,7 +50,7 @@
             </thead>
             <tbody>
                 {% for result in search_results %}
-                <tr>
+                <tr style="background-color: #f9f9f9; color: #333;">
                     <td>{{ result.full_name }}</td>
                     <td>{{ result.service_name }}</td>
                     <td>{{ result.experience }}</td>
@@ -61,7 +62,7 @@
                             <input type="hidden" name="service_name" value="{{ result.service_name }}">
                             <input type="hidden" name="professional_name" value="{{ result.full_name }}">
                             <input type="hidden" name="email" value="{{ result.email }}">
-                            <button type="submit" class="btn btn-success">Book</button>
+                            <button type="submit" class="btn btn-success" style="border-radius: 8px; padding: 8px 16px; font-weight: 600;">Book</button>
                         </form>
                     </td>
                 </tr>
@@ -69,7 +70,7 @@
             </tbody>
         </table>
         {% else %}
-        <p class="text-center">No results found for your search.</p>
+        <p class="text-center" style="font-weight: 500; color: #888;">No results found for your search.</p>
         {% endif %}
     </div>
 </div>

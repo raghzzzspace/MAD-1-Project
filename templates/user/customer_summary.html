@@ -2,13 +2,16 @@
 
 {% block content %}
 <div class="container-fluid mb-5">
-    <div class="row">
+    <div class="row justify-content-center">
         <!-- Right Column: Service History -->
-        <div class="card shadow-sm border-0">
-            <div class="card-body" style="min-height: 250px;"> <!-- Reduced height -->
-                <h5 class="card-title" style="color: #004aad;">Service History</h5>
-                <div class="d-flex justify-content-center">
-                    <canvas id="serviceHistoryChart" width="300" height="300"></canvas>
+        <div class="col-md-6">
+            <div class="card shadow-lg border-0 rounded-3">
+                <div class="card-body" style="min-height: 300px; padding: 30px; background: #f9f9f9;">
+                    <h5 class="card-title text-center" style="color: #004aad; font-weight: 700; font-size: 1.7rem;">Service History</h5>
+                    <div class="d-flex justify-content-center my-4">
+                        <canvas id="serviceHistoryChart" width="350" height="350"></canvas>
+                    </div>
+                    <p class="text-center" style="font-size: 1.1rem; color: #555;">Track and monitor the status of your service requests.</p>
                 </div>
             </div>
         </div>
@@ -23,6 +26,12 @@
 
     // Bar chart for Service History
     var ctxHistory = document.getElementById('serviceHistoryChart').getContext('2d');
+
+    // Create gradient
+    var gradient = ctxHistory.createLinearGradient(0, 0, 0, 400);
+    gradient.addColorStop(0, 'rgba(23, 162, 184, 0.6)');
+    gradient.addColorStop(1, 'rgba(40, 167, 69, 0.6)');
+
     var serviceHistoryChart = new Chart(ctxHistory, {
         type: 'bar',
         data: {
@@ -34,23 +43,60 @@
                     serviceHistoryData['Closed'] || 0,
                     serviceHistoryData['Assigned'] || 0
                 ],
-                backgroundColor: ['#17a2b8', '#28a745', '#ffc107'],
+                // Different colors for each bar
+                backgroundColor: [
+                    'rgba(23, 162, 184, 0.6)',  // Blue
+                    'rgba(40, 167, 69, 0.6)',   // Green
+                    'rgba(255, 193, 7, 0.6)'    // Yellow
+                ],
                 borderColor: '#ffffff',
-                borderWidth: 2
+                borderWidth: 2,
+                hoverBackgroundColor: [
+                    'rgba(0, 123, 255, 0.6)',  // Hover Blue
+                    'rgba(0, 255, 0, 0.6)',    // Hover Green
+                    'rgba(255, 204, 0, 0.6)'   // Hover Yellow
+                ],
+                hoverBorderColor: '#ffffff',
+                hoverBorderWidth: 3
             }]
         },
         options: {
             responsive: true,
             scales: {
                 y: {
-                    beginAtZero: true
+                    beginAtZero: true,
+                    ticks: {
+                        stepSize: 1,
+                        font: {
+                            size: 14,
+                            weight: 'bold',
+                            family: 'Arial, sans-serif'
+                        }
+                    }
+                },
+                x: {
+                    ticks: {
+                        font: {
+                            size: 14,
+                            weight: 'bold',
+                            family: 'Arial, sans-serif'
+                        }
+                    }
                 }
             },
             plugins: {
                 legend: {
-                    display: false
+                    display: false // Hide legend as the chart already includes labels for each bar
                 },
                 tooltip: {
+                    backgroundColor: '#004aad',
+                    titleFont: {
+                        size: 14,
+                        weight: 'bold'
+                    },
+                    bodyFont: {
+                        size: 12
+                    },
                     callbacks: {
                         label: function (tooltipItem) {
                             return tooltipItem.label + ': ' + tooltipItem.raw;
