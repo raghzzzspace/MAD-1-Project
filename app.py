@@ -386,12 +386,13 @@ def professional_summary():
         WHERE professional_name = :professional_name
         GROUP BY status
     """)
+
     requests_result = db.session.execute(requests_query, {'professional_name': logged_in_professional.full_name}).fetchall()
 
     service_requests_data = {
         'Received': sum(row[1] for row in requests_result),
-        'Closed': sum(row[1] for row in requests_result if row[0] == 'C'),
-        'Rejected': sum(row[1] for row in requests_result if row[0] == 'R')
+        'Closed': sum(row[1] for row in requests_result if row[0] == 'Closed'),
+        'Rejected': sum(row[1] for row in requests_result if row[0] == 'Requested')
     }
 
     return render_template(
