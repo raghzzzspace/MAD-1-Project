@@ -69,7 +69,6 @@ class Closed_Services(db.Model):
     pid=db.Column(db.Integer,nullable=False)
     cid=db.Column(db.Integer,nullable=False)
 
-
 class Services_status(db.Model):
     id=db.Column(db.Integer, primary_key=True)
     customer_name=db.Column(db.String(256),nullable=False)

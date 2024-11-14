@@ -27,7 +27,7 @@
     // Bar chart for Service History
     var ctxHistory = document.getElementById('serviceHistoryChart').getContext('2d');
 
-    // Create gradient
+    
     var gradient = ctxHistory.createLinearGradient(0, 0, 0, 400);
     gradient.addColorStop(0, 'rgba(23, 162, 184, 0.6)');
     gradient.addColorStop(1, 'rgba(40, 167, 69, 0.6)');
@@ -43,18 +43,18 @@
                     serviceHistoryData['Closed'] || 0,
                     serviceHistoryData['Assigned'] || 0
                 ],
-                // Different colors for each bar
+            
                 backgroundColor: [
-                    'rgba(23, 162, 184, 0.6)',  // Blue
-                    'rgba(40, 167, 69, 0.6)',   // Green
-                    'rgba(255, 193, 7, 0.6)'    // Yellow
+                    'rgba(23, 162, 184, 0.6)', 
+                    'rgba(40, 167, 69, 0.6)',   
+                    'rgba(255, 193, 7, 0.6)'  
                 ],
                 borderColor: '#ffffff',
                 borderWidth: 2,
                 hoverBackgroundColor: [
-                    'rgba(0, 123, 255, 0.6)',  // Hover Blue
-                    'rgba(0, 255, 0, 0.6)',    // Hover Green
-                    'rgba(255, 204, 0, 0.6)'   // Hover Yellow
+                    'rgba(0, 123, 255, 0.6)',  
+                    'rgba(0, 255, 0, 0.6)',    
+                    'rgba(255, 204, 0, 0.6)'   
                 ],
                 hoverBorderColor: '#ffffff',
                 hoverBorderWidth: 3
